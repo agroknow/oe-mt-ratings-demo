@@ -1,0 +1,55 @@
+{
+  "baseUrl": "http://54.228.180.124:8080/search-api/v1/akif?",
+  "enableFacets": true,
+  "enablePaginationBottom": true,
+  "enablePaginationTop": true,
+  "facets": [
+    "set",
+    "language",
+    "contexts"
+  ],
+  "limitPagination": 10,
+  "limit_facets": {
+    "set": [
+      "oeagroasis",
+      "oeenoat",
+      "oebioagro",
+      "oeecologica",
+      "oeintute",
+      "oeaua",
+      "oeeulsesthonian",
+      "oebmlfuwaustrian",
+      "oefao",
+      "oeellinogermaniki",
+      "oeorganiceprints",
+      "aglrseae",
+      "aglrmiksike",
+      "digitalgreen",
+      "nsdlbeyond",
+      "sercmicro",
+      "greenoer",
+      "aglreol",
+      "oerafrica",
+      "aglrnb",
+      "ruforum",
+      "gfar",
+      "aglrgsg",
+      "access",
+      "aglrcerorganic",
+      "prodinraagro",
+      "rurinc",
+      "traglor",
+      "uminho",
+      "faocapacityportal"
+    ]
+  },
+  "limit_facets_number": 30,
+  "mappings_file": "../config/facets_mappings.json",
+  "maxTextLength": 300,
+  "pageSize": 10,
+  "selectedLanguage": "en",
+  "snippetElements": [
+    "title",
+    "description"
+  ]
+}
