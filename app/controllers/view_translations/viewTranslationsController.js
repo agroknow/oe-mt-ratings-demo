@@ -209,7 +209,7 @@ listing.controller("viewTranslationsController", function($scope, $http, $locati
 
 		var item_identifier = $location.search().id.split('_')[0]; //?id=ID_SET
 		var headers = {'Content-Type':'application/json','Accept':'application/json;charset=utf-8'};
-		var translate_url = 'http://organic-analytic.agroknow.gr/api.php/analytics/translate?text='+text+'&from='+from+'&to='+to+'&service='+service;
+		var translate_url = 'http://organic-analytic.agroknow.gr/api/analytics/translate?text='+text+'&from='+from+'&to='+to+'&service='+service;
 
 		/* GET TRANSLATIONS */
 		$http({
@@ -269,7 +269,7 @@ listing.controller("viewTranslationsController", function($scope, $http, $locati
 
 
 		/* GET AVERAGE RATINGS PER TRANSLATION*/
-		var average_rate_url = 'http://organic-analytic.agroknow.gr/api.php/analytics/resources/'+item_identifier+'/translation/'+item_identifier+'_'+service+'_'+$scope.translate_from+'_'+$scope.translate_to+'/rating';
+		var average_rate_url = 'http://organic-analytic.agroknow.gr/api/analytics/resources/'+item_identifier+'/translation/'+item_identifier+'_'+service+'_'+$scope.translate_from+'_'+$scope.translate_to+'/rating';
 
 		console.log(average_rate_url);
 
@@ -315,7 +315,7 @@ listing.controller("viewTranslationsController", function($scope, $http, $locati
 
 			var headers = {'Content-Type':'application/json','Accept':'application/json;charset=utf-8'};
 
-			var rate_url = 'http://organic-analytic.agroknow.gr/api.php/analytics/resources/'+item_identifier+'/translation/'+item_identifier+'_'+service+'_'+$scope.translate_from+'_'+$scope.translate_to+'/rating?rating='+value+'&usertoken='+$scope.user_id+'&to='+$scope.translate_to+'&from='+$scope.translate_from+'&service='+service;
+			var rate_url = 'http://organic-analytic.agroknow.gr/api/analytics/resources/'+item_identifier+'/translation/'+item_identifier+'_'+service+'_'+$scope.translate_from+'_'+$scope.translate_to+'/rating?rating='+value+'&usertoken='+$scope.user_id+'&to='+$scope.translate_to+'&from='+$scope.translate_from+'&service='+service;
 
 			$http({
 					method : 'POST',
