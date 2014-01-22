@@ -222,6 +222,8 @@ listing.controller("viewTranslationsController", function($scope, $http, $locati
 			//parse array and create an JS Object Array
 			//every item is a JSON
 
+			console.log('service asked:'+service+' || service used:'+response.data.service_used);
+			console.log('url : ' + translate_url);
 			//MICROSOFT
 			if ( service == 'microsoft') {
 
@@ -334,6 +336,12 @@ listing.controller("viewTranslationsController", function($scope, $http, $locati
 		}
 
 
+
+	/********* text sanitization  ****************************************************/
+	/*Replace ' with %59 and " with */
+	$scope.sanitizeText = function(text) {
+
+	}
 
 });
 
