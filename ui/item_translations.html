@@ -13,6 +13,7 @@
 
             <div ng-controller="viewTranslationsController" ng-init="getItem()" class="row">
 
+			<div><a href="search.html" target="_self"> &lt; Search Page</a></div>
 			<div class="translations_dashboard">
 	            <h3>Record id : {{item_id}}</h3>
 	            <label for="user_id">Give a user id (required for rating):</label>
@@ -101,12 +102,10 @@
 			</article>
 
 
-
 			<article class="microsoft_translate_container">
 			    <h4>Microsoft Service Translation</h4>
                 <header>
                     <h2 id="itemTitle"></h2>
-                    <!--<img src="style/images/copyright_sample.png" alt="image" />-->
                 </header>
 
                 <div>
@@ -117,10 +116,30 @@
                     <p class="itemDescription" id="itemDescription"><b>Description:</b> {{microsoft_description || '-'}}</p>
                 </div>
 
+				<div ng-show="microsoft_translation_completed">
+					<a style="float:left;" href="javascript:;" ng-click="checkDomainTerminologyPOST()">Check Domain Terminology - POST</a>
+					<br><a style="float:left;" href="javascript:;" ng-click="checkDomainTerminologyGET()">Check Domain Terminology - GET</a>
+					<!--<form method="POST" name="TestMTServiceGet" action="http://research.celi.it:8080/DomainTerminologyChecker/rest/domain_terminology_checker/">
+						<input type="hidden" name="translation" value="{{microsoft_description}}">
+						<input type="hidden" name="to" value="{{translate_to}}">
+						<input type="hidden" name="source" value="{{item_description}}">
+						<input type="hidden" name="from" value="{{translate_from}}">
+						<input type="hidden" name="json_output" value="true">
+						<input type="hidden" name="service" value="microsoft"><br>
+						<label>Domain ID:</label>
+						<select name="domainID">
+							<option value="organic.lingua">Organic.Lingua</option>
+							<option value="agrovoc">Agrovoc</option>
+							<option value="">All</option>
+						</select>
+						<input type="submit" value="Enrich Translation with Domain Terminology" style="margin-left:15px;">
+					</form>-->
+				</div>
+
+
                 <!-- rating data -->
                 <div>Rating: {{microsoft_avg_rating || '-'}}
-	                	<br>
-					 Votes: {{microsoft_votes || '-'}}
+	                <br>Votes: {{microsoft_votes || '-'}}
                 </div>
 
                 <fieldset ng-show="microsoft_rating_on" class="rating">
@@ -150,11 +169,13 @@
 				  </label>
 
 				</fieldset>
-				  <p class="thanks" ng-show="microsoft_rating_thanks">Thank you for rating.</p>
+
+				<p class="thanks" ng-show="microsoft_rating_thanks">Thank you for rating.</p>
+
+
 
 
 			</article>
-
 
 
 			<article class="xerox_translate_container">

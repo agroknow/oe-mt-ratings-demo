@@ -73,6 +73,7 @@ listing.controller("viewTranslationsController", function($scope, $http, $locati
 	/*Microsoft Variables*/
 	$scope.microsoft_title='';
 	$scope.microsoft_description='';
+	$scope.microsoft_translation_completed = false;
 
 
 	/*Xerox Variables*/
@@ -140,14 +141,12 @@ listing.controller("viewTranslationsController", function($scope, $http, $locati
 		.success(function(data) {
 			//parse array and create an JS Object Array
 			//every item is a JSON
-			console.log(data.results[0]);
 			var thisJson = data.results[0];
 
 			var languages = [];
 			for(var k in thisJson.languageBlocks) languages.push(k);
 
 			$scope.item_id = thisJson.identifier;
-			console.log(languages);
 
 			//WE USE ONLY 'EN' FOR NOW
 			if (thisJson.languageBlocks.en !== undefined) {
@@ -193,7 +192,8 @@ listing.controller("viewTranslationsController", function($scope, $http, $locati
 	/********* CALL TRANSLATIONS *************************************************************/
 	$scope.translate_item = function() {
 
-		//$scope.loading will become 'false' when loading_counter become 4. IF we add more functions we need to increase the times of repeat in $scope.translation() function.
+		//$scope.loading will become 'false' when loading_counter become 4.
+		//IN CASE we add MORE FUNCTIONS we need to increase the times of repeat in $scope.translation() function.
 		$scope.loading = true;
 		$scope.loading_counter = 0;
 
@@ -222,8 +222,6 @@ listing.controller("viewTranslationsController", function($scope, $http, $locati
 			//parse array and create an JS Object Array
 			//every item is a JSON
 
-			console.log('service asked:'+service+' || service used:'+response.data.service_used);
-			console.log('url : ' + translate_url);
 			//MICROSOFT
 			if ( service == 'microsoft') {
 
@@ -267,13 +265,16 @@ listing.controller("viewTranslationsController", function($scope, $http, $locati
 			if ( $scope.loading_counter == 4 ) {
 				 $scope.loading = false;
 			}
+
+			//show button for DOMAIN TERMINOLOGY CHECKING
+			$scope.microsoft_translation_completed = true;
+
+
 		});
 
 
 		/* GET AVERAGE RATINGS PER TRANSLATION*/
 		var average_rate_url = 'http://organic-analytic.agroknow.gr/api/analytics/resources/'+item_identifier+'/translation/'+item_identifier+'_'+service+'_'+$scope.translate_from+'_'+$scope.translate_to+'/rating';
-
-		console.log(average_rate_url);
 
 		$http({
 			method : 'GET',
@@ -283,12 +284,12 @@ listing.controller("viewTranslationsController", function($scope, $http, $locati
 		})
 		.success(function(response) {
 			if (service == 'microsoft') {
-				response.data.rating !== undefined  ? $scope.microsoft_avg_rating = response.data.rating : $scope.microsoft_avg_rating = "Be the first to rate! ";
-				$scope.microsoft_votes = response.data.votes;
+				response.data !== undefined && response.data.rating !== undefined  ? $scope.microsoft_avg_rating = response.data.rating : $scope.microsoft_avg_rating = "Be the first to rate! ";
+				response.data !== undefined && response.data.voting ? $scope.microsoft_votes = response.data.votes : $scope.microsoft_votes = "";
 			}
 			if (service == 'xerox') {
-				$scope.xerox_avg_rating = response.data.rating;
-				$scope.xerox_votes = response.data.votes;
+				response.data !== undefined && response.data.rating !== undefined  ? $scope.xerox_avg_rating = response.data.rating : $scope.xerox_avg_rating = "-";
+				response.data !== undefined && response.data.voting ? $scope.microsoft_votes = response.data.votes : $scope.xerox_votes = "";
 			}
 
 		});
@@ -328,14 +329,61 @@ listing.controller("viewTranslationsController", function($scope, $http, $locati
 				.success(function(response) {
 					//parse array and create an JS Object Array
 					//every item is a JSON
-					//console.log(translate_url);
 					console.log(response);
 
 				});
 			}
 		}
 
+	/*---******** CHECK DOMAIN TERMINOLOGY - GET ***************************************************/
+	$scope.checkDomainTerminologyGET = function() { //source, translation, from, to, service, json_output
 
+		var checking_url = 'http://research.celi.it:8080/DomainTerminologyChecker/rest/domain_terminology_checker?source='+encodeURIComponent($scope.description)+'&translation='+encodeURIComponent($scope.microsoft_description)+'&service=microsoft&from='+$scope.translate_from+'&to='+$scope.translate_to+'&json_output=true';
+		/* &domainID=agrovoc'*/
+
+		var headers = {'Content-Type':'application/json','Accept':'application/json;charset=utf-8'};
+
+		console.log(checking_url);
+
+		$http({
+			method : 'GET',
+			url : checking_url,
+			type: 'json',
+			headers : headers
+		})
+		.success(function(response) {
+			//parse array and create an JS Object Array
+			//every item is a JSON
+			console.log(response);
+
+		});
+
+	}
+
+	/*---******** CHECK DOMAIN TERMINOLOGY - POST ***************************************************/
+	$scope.checkDomainTerminologyPOST = function() { //source, translation, from, to, service, json_output
+
+		var checking_url = 'http://research.celi.it:8080/DomainTerminologyChecker/rest/domain_terminology_checker?source='+encodeURIComponent($scope.description)+'&translation='+encodeURIComponent($scope.microsoft_description)+'&service=microsoft&from='+$scope.translate_from+'&to='+$scope.translate_to+'&json_output=true';
+		/* &domainID=agrovoc'*/
+
+		var headers = {'Content-Type':'application/json','Accept':'application/json;charset=utf-8'};
+
+		console.log(checking_url);
+
+		$http({
+			method : 'POST',
+			url : checking_url,
+			type: 'json',
+			headers : headers
+		})
+		.success(function(response) {
+			//parse array and create an JS Object Array
+			//every item is a JSON
+			console.log(response);
+
+		});
+
+	}
 
 	/********* text sanitization  ****************************************************/
 	/*Replace ' with %59 and " with */
